@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 409566}
   - 114: {fileID: 11433410}
+  - 114: {fileID: 11465678}
   m_Layer: 0
   m_Name: _gameManager
   m_TagString: Untagged
@@ -39,6 +40,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc017acc549b44c0830055b22802bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11465678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2a8739f7475343e489e82fd157dd175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 15
+  rows: 10
+  wallTiles:
+  - {fileID: 163840, guid: a74ae14aa109033498b46b444e969b15, type: 2}
+  - {fileID: 163242, guid: 4bc31d14746da76418ce679c0d408b94, type: 2}
+  - {fileID: 109500, guid: 8c96e27669ce24d41a95add7ee3df6a1, type: 2}
+  - {fileID: 123774, guid: 9fcc0aee37dd0c945a49f209fc59fb51, type: 2}
+  - {fileID: 170322, guid: 9315db50107b5384c9fc7c72ce9c3f5d, type: 2}
+  - {fileID: 185478, guid: e545f60c365443f4092bb1e73fd476a9, type: 2}
+  - {fileID: 160304, guid: 82a435d789592d649a7fd839d4542af7, type: 2}
+  - {fileID: 120570, guid: 4a9c838684d9fd9499397eef483eea4f, type: 2}
+  floorTiles:
+  - {fileID: 148790, guid: 331d9f494b1af44dd94b1c3669e3cb96, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
