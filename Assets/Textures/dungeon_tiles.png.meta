@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 70d7dd3552c5f114ba6de6cf4ed4f962
-timeCreated: 1461778462
+timeCreated: 1461925698
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ TextureImporter:
     21300002: dungeon_tiles_1
     21300004: dungeon_tiles_2
     21300006: dungeon_tiles_3
-    21300008: dungeon_tiles_4
+    21300008: floor
     21300010: dungeon_tiles_5
     21300012: dungeon_tiles_6
     21300014: dungeon_tiles_7
@@ -163,13 +163,13 @@ TextureImporter:
         - {x: -24, y: -24}
         - {x: 24, y: -24}
         - {x: 24, y: 24}
-    - name: dungeon_tiles_4
+    - name: floor
       rect:
         serializedVersion: 2
-        x: 288
-        y: 304
-        width: 48
-        height: 48
+        x: 304
+        y: 320
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
