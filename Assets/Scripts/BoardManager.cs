@@ -19,97 +19,41 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
-	public int columns = 10;
-	public int rows = 10;
+	private List<Room> _rooms = new List<Room>();
 	public GameObject[] wallTiles;
 	public GameObject[] floorTiles;
 
 	private Transform _boardHolder;
 	private List<Vector3> gridPosition = new List<Vector3> ();
 
-	void InitialiseList()
-	{
-		gridPosition.Clear ();
-
-		for (int x = 1; x < columns-1; x++) 
-		{
-			for (int y = 1; y < rows-1; y++) 
-			{
-				gridPosition.Add (new Vector3 (x * 0.16f, y * 0.16f, 0f));
-			}
-			
-		}
-	}
-
+//	void InitialiseList()
+//	{
+//		gridPosition.Clear ();
+//
+//		for (int x = 1; x < columns-1; x++) 
+//		{
+//			for (int y = 1; y < rows-1; y++) 
+//			{
+//				gridPosition.Add (new Vector3 (x * 0.16f, y * 0.16f, 0f));
+//			}
+//			
+//		}
+//	}
+//
 	void BoardSetup()
 	{
 		_boardHolder = new GameObject ("Board").transform;
-	
-		for (int x = -1; x < columns + 1; x++) 
-		{
-			for (int y = -1; y < rows + 1; y++) 
-			{
-				// Пол
-				GameObject toInstantiate = floorTiles[0];
-				 
-				//Левая стенка
-				if (y == -1) 
-				{
-					toInstantiate = wallTiles [5];
-				} 
-
-				if (x == columns) 
-				{
-					//Правая стенка
-					toInstantiate = wallTiles [3];
-					//Правый нижний угол
-					if (y == -1) 
-					{
-						toInstantiate = wallTiles [4];
-					}
-				} 
-
-				if (y == rows) 
-				{
-					//Правый верхний угол
-					if (x == columns) 
-					{
-						toInstantiate = wallTiles [2];
-					} 
-					else 
-					{
-						//Верхняя стенка
-						toInstantiate = wallTiles [1];
-					}
-				} 
-					
-				if (x == -1) 
-				{
-					//Левая стенка
-					toInstantiate = wallTiles [7];
-					if (x == -1 && y == -1)
-					{
-						//Левый нижний угол
-						toInstantiate = wallTiles [6];
-					}
-					if (x == -1 && y == rows) 
-					{
-						//Левый верхний уровень
-						toInstantiate = wallTiles [0];
-					}
-				}
-
-				GameObject instance = Instantiate (toInstantiate, new Vector3 (x * 0.16f, y * 0.16f, 0f), Quaternion.identity) as GameObject;
-				instance.transform.SetParent (_boardHolder);
-			}
-		}
+		Room room = new Room (0, 0, 10, 10, 1);
+		Room room1 = new Room (room.Width+2, room.Height+3, Random.Range(4,7), Random.Range(0,8), 2);
+		_rooms.Add (room);
+		_rooms.Add (room1);
 	}
 
 	public void SetupScene(int level)
 	{
 		BoardSetup ();
-
-		InitialiseList ();
+		FillRooms (_rooms);
+//		InitialiseList ();
 	}
 
 
@@ -122,5 +66,46 @@ public class BoardManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	void FillRooms(List<Room> rooms)
+	{
+		foreach (var room in rooms) {
+			Dictionary<Vector2, WallType> tiles = room.GenerateRoom ();
+			GameObject toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
+			foreach (var tile in tiles) {
+				switch (tile.Value) {
+				case WallType.LeftTopCorner:
+					toInstantiate = wallTiles [0];
+					break;
+				case WallType.TopMid:
+					toInstantiate = wallTiles [1];
+					break;
+				case WallType.RightTopCorner:
+					toInstantiate = wallTiles [2];
+					break;
+				case WallType.RightMid:
+					toInstantiate = wallTiles [3];
+					break;
+				case WallType.RightBottomCorner:
+					toInstantiate = wallTiles [4];
+					break;
+				case WallType.BottomMid:
+					toInstantiate = wallTiles [5];
+					break;
+				case WallType.LeftBottomCorner:
+					toInstantiate = wallTiles [6];
+					break;
+				case WallType.LeftMid:
+					toInstantiate = wallTiles [7];
+					break;
+				default :
+					toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
+					break;
+				}
+				GameObject instance = Instantiate (toInstantiate, new Vector3 (tile.Key.x * 0.16f, tile.Key.y * 0.16f, 0f), Quaternion.identity) as GameObject;
+				instance.transform.parent = _boardHolder;
+			}
+		}
 	}
 }
