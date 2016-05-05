@@ -51,8 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a8739f7475343e489e82fd157dd175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 15
-  rows: 10
   wallTiles:
   - {fileID: 163840, guid: a74ae14aa109033498b46b444e969b15, type: 2}
   - {fileID: 163242, guid: 4bc31d14746da76418ce679c0d408b94, type: 2}
@@ -63,6 +61,8 @@ MonoBehaviour:
   - {fileID: 160304, guid: 82a435d789592d649a7fd839d4542af7, type: 2}
   - {fileID: 120570, guid: 4a9c838684d9fd9499397eef483eea4f, type: 2}
   floorTiles:
+  - {fileID: 148790, guid: 331d9f494b1af44dd94b1c3669e3cb96, type: 2}
+  doorTiles:
   - {fileID: 148790, guid: 331d9f494b1af44dd94b1c3669e3cb96, type: 2}
 --- !u!1001 &100100000
 Prefab:

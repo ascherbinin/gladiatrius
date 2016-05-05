@@ -22,7 +22,8 @@ public class BoardManager : MonoBehaviour
 	private List<Room> _rooms = new List<Room>();
 	public GameObject[] wallTiles;
 	public GameObject[] floorTiles;
-
+	public GameObject[] doorTiles;
+	private int _numberOfRooms = 0 ;
 	private Transform _boardHolder;
 	private List<Vector3> gridPosition = new List<Vector3> ();
 
@@ -40,18 +41,25 @@ public class BoardManager : MonoBehaviour
 //		}
 //	}
 //
-	void BoardSetup()
+	void BoardSetup(int level)
 	{
 		_boardHolder = new GameObject ("Board").transform;
-		Room room = new Room (0, 0, 10, 10, 1);
-		Room room1 = new Room (room.Width+2, room.Height+3, Random.Range(4,7), Random.Range(0,8), 2);
+
+		Room room = new Room (0,
+			0,
+			Random.Range (5, 10),
+			Random.Range (6, 10),
+			level);
 		_rooms.Add (room);
+		Direction dir = Direction.Up;
+		var door = room.GetRandomDoorPosition (out dir);
+		Room room1 = new Room((int)door.x, (int)door.y, 5, 5, dir);
 		_rooms.Add (room1);
 	}
 
 	public void SetupScene(int level)
 	{
-		BoardSetup ();
+		BoardSetup (level);
 		FillRooms (_rooms);
 //		InitialiseList ();
 	}
@@ -71,6 +79,7 @@ public class BoardManager : MonoBehaviour
 	void FillRooms(List<Room> rooms)
 	{
 		foreach (var room in rooms) {
+			Transform _roomHolder = new GameObject ("ROOM_"+room.ID).transform;
 			Dictionary<Vector2, WallType> tiles = room.GenerateRoom ();
 			GameObject toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
 			foreach (var tile in tiles) {
@@ -99,13 +108,38 @@ public class BoardManager : MonoBehaviour
 				case WallType.LeftMid:
 					toInstantiate = wallTiles [7];
 					break;
+				case WallType.Door:
+					toInstantiate = doorTiles [0];
+					break;
 				default :
 					toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
 					break;
 				}
 				GameObject instance = Instantiate (toInstantiate, new Vector3 (tile.Key.x * 0.16f, tile.Key.y * 0.16f, 0f), Quaternion.identity) as GameObject;
-				instance.transform.parent = _boardHolder;
+				instance.transform.parent = _roomHolder;
+				_roomHolder.transform.parent = _boardHolder;
 			}
 		}
+	}
+
+	bool CheckIntersectRoom(int x, int y, int width, int height)
+	{
+		var topLeft = new Vector2(x, y + height);
+		var bottomRight = new Vector2(x + width, y);
+
+		foreach (var checkRoom in _rooms) 
+		{
+			var topLeftCheck = new Vector2 (checkRoom.X, checkRoom.Y + checkRoom.Height);
+			var bottomRightCheck = new Vector2(checkRoom.X + checkRoom.Width, checkRoom.Y);
+
+			if ((topLeft.x < bottomRightCheck.x || topLeftCheck.x > bottomRight.x)
+				&& (topLeft.y < bottomRightCheck.y || topLeftCheck.y < bottomRight.y)) {
+				Debug.Log ("NOT Intersect ");
+			} else {
+				Debug.Log("Intersect ");
+				return true;
+			}
+		}
+		return false;
 	}
 }
