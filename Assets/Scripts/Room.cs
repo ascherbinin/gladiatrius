@@ -75,41 +75,6 @@ class Room
 		setBoundaries ();
 	}
 
-	public Room(int x, int y, int length, int id, Direction dir)
-	{
-		_x = x;
-		_y = y;
-
-		if (dir == Direction.Up) {
-			_height = length;
-			_width = 1;
-		} 
-		if (dir == Direction.Down)
-		{
-			_height = -length;
-			_y = -y;
-			_width = 1;
-		}
-		if (dir == Direction.Right) {
-			_width = length;
-			_height = 1;
-		} 
-		if (dir == Direction.Left) 
-		{
-			_width = -length;
-			_x = -x;
-			_height = 1;
-		}
-
-		_id = id;
-		setBoundaries ();
-	}
-
-	public Room GetRoom(int id)
-	{
-		return this;
-	}
-
 	public Dictionary<Vector2, WallType> GenerateRoom()
 	{
 		for (int x = _x-1; x < _width + _x + 1; x++) 
@@ -233,7 +198,7 @@ class Room
 
 	public Vector2 GetRandomDoorPosition(out Direction dir)
 	{
-		dir = (Direction)Random.Range (0, 3);
+		dir = (Direction)Random.Range (0, 4);
 		var arr = _boundaries [dir];
 		door = arr [Random.Range (arr.Count / 2 - 2, arr.Count / 2 + 2)];
 		return door;
